@@ -43,4 +43,17 @@ public class SeatUi {
         }
         System.out.println();
     }
+
+    public static void main(String[] args) {
+        SeatUi testUi = new SeatUi();
+
+        System.out.println("\n[1. Standard 관 테스트]");
+        testUi.printStandard(); // 하은님이 만든 메서드명
+
+        System.out.println("\n[2. Premium 관 테스트]");
+        testUi.printPremium();
+
+        System.out.println("\n[3. Couple 관 테스트]");
+        testUi.printCouple();
+    }
 }
