@@ -1,12 +1,19 @@
 package data;
 
 public class Movie {
-    private String title;      // 제목
-    private String genre;      // 장르
-    private int runningTime;   // 러닝타임
-    private String startTime;  // 상영시간 (10:00 등)
-    private String theaterType; // 상영관 종류
+    private String title;
+    private String genre;
+    private String startTime;
+    private String theaterType; // Standard, Premium, Couple, IMAX
 
-    // 생성자 및 Getter/Setter
+    public Movie(String title, String genre, String startTime, String theaterType) {
+        this.title = title;
+        this.genre = genre;
+        this.startTime = startTime;
+        this.theaterType = theaterType;
+    }
+
+    // Getter들 (이게 있어야 나중에 화면에 보여줌)
+    public String getTitle() { return title; }
+    public String getStartTime() { return startTime; }
 }
-
