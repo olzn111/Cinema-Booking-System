@@ -16,7 +16,7 @@ public class SeatUi {
     // 2. Premium / IMAX: P/N 구역 및 넓은 간격
     public void printPremium() {
         System.out.println("========== SCREEN (Premium) ==========");
-        // P구역과 N구역을 나눠서 출력 (이미지 참고)
+        // P구역과 N구역을 나눠서 출력
         printRowWithPrefix('A', "P", 1, 6);
         printRowWithPrefix('B', "P", 7, 12);
         System.out.println(); // 중간 통로

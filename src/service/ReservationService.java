@@ -1,10 +1,9 @@
-/* package service;
+package service;
 
 import data.Movie;
 import data.Reservation;
 import data.Theater;
-// 주의: User 클래스는 하민님이 만들었을 테니, 거기에 맞게 import 하기! 그렇게 됨.
-// 만약 User 클래스가 data 패키지에 있다면: import data.User;
+import data.User;
 
 public class ReservationService {
 
@@ -59,4 +58,3 @@ public class ReservationService {
         return new Reservation(userId, movie.getTitle(), seatNum, finalPrice);
     }
 }
- */
