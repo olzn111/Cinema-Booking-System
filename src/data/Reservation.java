@@ -1,21 +1,29 @@
 package data;
 
-public class Reservation {
-    private String userId;       // 예매한 사용자 ID
-    private String movieTitle;   // 예매한 영화 제목
-    private String seatNumber;   // 선택한 좌석 (예: "A1")
-    private int price;           // 최종 결제 금액 (할인 적용 후)
+import java.util.List;
 
-    public Reservation(String userId, String movieTitle, String seatNumber, int price) {
-        this.userId = userId;
-        this.movieTitle = movieTitle;
-        this.seatNumber = seatNumber;
-        this.price = price;
+public class Reservation {
+    private Movie movie;
+    private List<String> seats;
+    private int totalPeople;
+    private int finalPrice;
+
+    public Reservation(Movie movie, List<String> seats, int totalPeople, int finalPrice) {
+        this.movie = movie;
+        this.seats = seats;
+        this.totalPeople = totalPeople;
+        this.finalPrice = finalPrice;
     }
 
-    // Getter (내역 확인 출력용)
-    public String getUserId() { return userId; }
-    public String getMovieTitle() { return movieTitle; }
-    public String getSeatNumber() { return seatNumber; }
-    public int getPrice() { return price; }
+    public Movie getMovie() { return movie; }
+    public List<String> getSeats() { return seats; } // 좌석 리스트 반환
+    public int getTotalPeople() { return totalPeople; }
+    public int getFinalPrice() { return finalPrice; }
+
+    @Override
+    public String toString() {
+        String seatNames = String.join(", ", seats);
+        return movie.getTitle() + " (" + movie.getStartTime() + ") - "
+                + totalPeople + "명 / 좌석: [" + seatNames + "] / 결제금액: " + finalPrice + "원";
+    }
 }

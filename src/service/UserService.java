@@ -1,61 +1,38 @@
 package service;
 
 import data.User;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserService {
-    private ArrayList<User> users;
-    private User currentUser;
+    // 유저 정보를 저장할 저장소 (아이디를 키값으로 사용)
+    private Map<String, User> userMap = new HashMap<>();
+    // 현재 로그인한 유저 정보를 기억하는 변수
+    private User currentUser = null;
 
-    public UserService() {
-        users = new ArrayList<>();
-        currentUser = null;
+    // 회원가입 처리 (UI에서 넘겨준 3가지 정보를 받아 User 객체를 만듦)
+    public void register(String id, String pw, boolean isMembership) {
+        User newUser = new User(id, pw, isMembership);
+        userMap.put(id, newUser);
     }
 
-    public boolean isIdDuplicated(String id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                return true;
-            }
+    // 로그인 처리
+    public boolean login(String id, String pw) {
+        User user = userMap.get(id);
+        if (user != null && user.getPw().equals(pw)) {
+            currentUser = user; // 로그인 성공 시 현재 유저로 등록
+            return true;
         }
-        return false;
+        return false; // 실패 시
     }
 
-    public boolean register(String id, String password, String name,
-                            int age, String ageDiscountType,
-                            boolean membership, int telecom, String membershipGrade,
-                            boolean soldier, boolean disabled) {
-
-        if (isIdDuplicated(id)) {
-            return false;
-        }
-
-        User newUser = new User(
-                id, password, name,
-                age, ageDiscountType,
-                membership, telecom, membershipGrade,
-                soldier, disabled
-        );
-
-        users.add(newUser);
-        return true;
-    }
-
-    public boolean login(String id, String password) {
-        for (User user : users) {
-            if (user.getId().equals(id) && user.getPassword().equals(password)) {
-                currentUser = user;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
+    // 로그아웃 처리
     public void logout() {
         currentUser = null;
+    }
+
+    // 현재 로그인한 유저 정보 넘겨주기
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

@@ -1,59 +1,25 @@
 package service;
 
-import data.Main;
-import data.Reservation;
 import data.Theater;
 
 public class ReservationService {
 
-    // 1. 최종 결제 금액 계산 알고리즘
-    // User 객체에 getBirthYear(), getTelecom(), getPrivilege() 등이 있다고 가정합니다.
-    public int calculatePrice(Theater theater, Main movie, int birthYear, String telecom, String privilege, boolean isWednesday) {
-        double price = theater.getBasePrice();
+    // MovieConsoleUi에서 넘겨주는 파라미터(상영관, 경로, 성인, 청소년, 유아, 할인금액)에 맞춘 최종 계산 로직
+    public int calculatePrice(Theater theater, int senior, int adult, int teen, int toddler, int discount) {
+        int basePrice = theater.getBasePrice(); // 상영관 기본 가격 (예: 15000원)
 
-        // [나이 계산] 2026년 기준
-        int age = 2026 - birthYear;
+        int totalPrice = 0;
 
-        // ① 시간대 할인 (조조: 10시 전 / 심야: 23시 이후)
-        int hour = Integer.parseInt(movie.getStartTime().split(":")[0]);
-        if (hour < 10) {
-            price *= 0.8; // 조조 20% 할인
-        } else if (hour >= 23) {
-            price *= 0.9; // 심야 10% 할인
-        }
+        // 1. 인원별 요금 합산
+        totalPrice += adult * basePrice;
+        totalPrice += teen * (int)(basePrice * 0.8);   // 청소년 20% 할인
+        totalPrice += senior * (int)(basePrice * 0.5); // 경로 50% 할인
+        // 유아(toddler)는 무료로 계산하여 더하지 않음
 
-        // ② 연령 할인
-        if (age <= 4) {
-            price = 0; // 유아 무료 (48개월 이하)
-        } else if (age <= 18) {
-            price *= 0.7; // 청소년 30% 할인
-        } else if (age >= 65) {
-            price *= 0.5; // 경로 우대 50% 할인
-        }
+        // 2. 단일 할인 적용 (연령 할인 또는 멤버십 할인)
+        totalPrice -= discount;
 
-        // ③ 우대 할인 (군인, 장애인) - 2000원 정액 할인
-        if (privilege.equals("군인") || privilege.equals("장애인")) {
-            price -= 2000;
-        }
-
-        // ④ 문화의 날 (매주 수요일) - 1000원 추가 할인
-        if (isWednesday) {
-            price -= 1000;
-        }
-
-        // ⑤ 통신사 VIP 할인
-        if (telecom.contains("VIP")) {
-            price -= 1000;
-        }
-
-        // 금액이 0원 밑으로 떨어지는 것 방지
-        return Math.max((int) price, 0);
-    }
-
-    // 2. 예매 내역 생성 (최종 영수증 만들기)
-    public Reservation makeReservation(String userId, Main movie, Theater theater, String seatNum, int finalPrice) {
-        // 실제 좌석 예약 처리
-        // 만약 seatNum이 "A1"이라면 행렬 인덱스로 변환하는 로직이 필요하지만, 여기서는 내역만 생성
-        return new Reservation(userId, movie.getTitle(), seatNum, finalPrice);
+        // 3. 결제 금액이 마이너스가 되는 것을 방지 (최소 0원)
+        return Math.max(totalPrice, 0);
     }
 }

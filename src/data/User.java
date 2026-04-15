@@ -2,68 +2,31 @@ package data;
 
 public class User {
     private String id;
-    private String password;
-    private String name;
-    private int age;
-    private String ageDiscountType;   // 유아, 청소년, 경로우대, 일반
-    private boolean membership;
-    private int telecom;              // 1, 2, 3 / 없으면 0
-    private String membershipGrade;   // VIP, GOLD, COMMON / 없으면 "없음"
-    private boolean soldier;
-    private boolean disabled;
+    private String pw;
+    private boolean isMembership; // 멤버십 여부 저장 공간 추가!
 
-    public User(String id, String password, String name, int age, String ageDiscountType,
-                boolean membership, int telecom, String membershipGrade,
-                boolean soldier, boolean disabled) {
+    public User(String id, String pw, boolean isMembership) {
         this.id = id;
-        this.password = password;
-        this.name = name;
-        this.age = age;
-        this.ageDiscountType = ageDiscountType;
-        this.membership = membership;
-        this.telecom = telecom;
-        this.membershipGrade = membershipGrade;
-        this.soldier = soldier;
-        this.disabled = disabled;
+        this.pw = pw;
+        this.isMembership = isMembership;
     }
 
+    // 정보들을 가져오는 Getter 메서드들
     public String getId() {
         return id;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPw() {
+        return pw;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getAgeDiscountType() {
-        return ageDiscountType;
-    }
-
+    // 이 부분이 추가되어 isMembership 빨간 줄이 해결됩니다!
     public boolean isMembership() {
-        return membership;
+        return isMembership;
     }
 
-    public int getTelecom() {
-        return telecom;
-    }
-
-    public String getMembershipGrade() {
-        return membershipGrade;
-    }
-
-    public boolean isSoldier() {
-        return soldier;
-    }
-
-    public boolean isDisabled() {
-        return disabled;
+    // MovieConsoleUi에서 사용하는 연령 할인 타입 (기본값 설정)
+    public String getAgeDiscountType() {
+        return "일반";
     }
 }
