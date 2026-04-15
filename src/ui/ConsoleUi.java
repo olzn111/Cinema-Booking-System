@@ -1,6 +1,6 @@
 package ui;
 
-import data.Movie;
+import data.Main;
 import data.Theater;
 import data.User;
 import service.UserService;
@@ -97,14 +97,14 @@ public class ConsoleUi {
     // 4. 예매 콘솔창 (하은님 로직)
     public void startBooking() {
         System.out.println("\n🍿 [MOVIE BOOKING CONSOLE]");
-        List<Movie> movies = movieService.getMovieList();
+        List<Main> movies = movieService.getMovieList();
         for (int i = 0; i < movies.size(); i++) {
             System.out.println((i+1) + ". " + movies.get(i).getTitle() + " (" + movies.get(i).getStartTime() + ")");
         }
 
         System.out.print("영화 번호 선택: ");
         int choice = Integer.parseInt(scanner.nextLine());
-        Movie movie = movieService.getMovieByNumber(choice);
+        Main movie = movieService.getMovieByNumber(choice);
 
         System.out.println("\n📍 [" + movie.getTheaterType() + "] 좌석을 선택하세요.");
         if (movie.getTheaterType().equals("Premium")) seatUi.printPremium();

@@ -1,15 +1,14 @@
 package service;
 
-import data.Movie;
+import data.Main;
 import data.Reservation;
 import data.Theater;
-import data.User;
 
 public class ReservationService {
 
     // 1. 최종 결제 금액 계산 알고리즘
     // User 객체에 getBirthYear(), getTelecom(), getPrivilege() 등이 있다고 가정합니다.
-    public int calculatePrice(Theater theater, Movie movie, int birthYear, String telecom, String privilege, boolean isWednesday) {
+    public int calculatePrice(Theater theater, Main movie, int birthYear, String telecom, String privilege, boolean isWednesday) {
         double price = theater.getBasePrice();
 
         // [나이 계산] 2026년 기준
@@ -52,7 +51,7 @@ public class ReservationService {
     }
 
     // 2. 예매 내역 생성 (최종 영수증 만들기)
-    public Reservation makeReservation(String userId, Movie movie, Theater theater, String seatNum, int finalPrice) {
+    public Reservation makeReservation(String userId, Main movie, Theater theater, String seatNum, int finalPrice) {
         // 실제 좌석 예약 처리
         // 만약 seatNum이 "A1"이라면 행렬 인덱스로 변환하는 로직이 필요하지만, 여기서는 내역만 생성
         return new Reservation(userId, movie.getTitle(), seatNum, finalPrice);
