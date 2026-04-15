@@ -1,25 +1,28 @@
-import ui.SeatUi;
-import service.SampleDataLoader;
 import data.Movie;
+import service.MovieService;
+import service.SampleDataLoader;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("========= 영화 예약 시스템 테스트 ========="); //테스트는 나중에 빼기
+        System.out.println("🎬 Cinema Booking System 시작...\n");
 
-        // 1. 데이터 로더 실행
-        SampleDataLoader loader = new SampleDataLoader();
+        // 1. 서비스 준비
+        MovieService movieService = new MovieService();
+
+        // 2. 데이터 로더로 영화 4개 집어넣기
+        SampleDataLoader loader = new SampleDataLoader(movieService);
         loader.loadData();
 
-        // 2. 로드된 영화 목록 확인하기
-        List<Movie> movies = loader.getMovies();
-        System.out.println("🎬 등록된 영화 개수: " + movies.size() + "개");
-        for (Movie m : movies) {
-            System.out.println("- " + m.getTitle() + " (" + m.getStartTime() + ")");
+        // 3. 잘 들어갔는지 화면에 출력해보기 (하은님의 Getter 활용!)
+        System.out.println("\n========= 현재 상영작 목록 =========");
+        List<Movie> list = movieService.getMovieList();
+        for (int i = 0; i < list.size(); i++) {
+            Movie m = list.get(i);
+            System.out.println((i + 1) + ". " + m.getTitle()
+                    + " | 상영시간: " + m.getStartTime()
+                    + " | 상영관: " + m.getTheaterType());
         }
-
-        // 3. SeatUi 확인
-        SeatUi ui = new SeatUi();
-        ui.printStandard();
+        System.out.println("====================================");
     }
 }
