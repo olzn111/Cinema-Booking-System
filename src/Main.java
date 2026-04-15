@@ -1,25 +1,37 @@
-import ui.SeatUi;
-import service.SampleDataLoader;
-import data.Movie;
-import java.util.List;
+import service.UserService;
+import ui.ConsoleUi;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("========= 영화 예약 시스템 테스트 ========="); //테스트는 나중에 빼기
+        UserService userService = new UserService();
+        ConsoleUi consoleUi = new ConsoleUi(userService);
 
-        // 1. 데이터 로더 실행
-        SampleDataLoader loader = new SampleDataLoader();
-        loader.loadData();
+        boolean run = true;
 
-        // 2. 로드된 영화 목록 확인하기
-        List<Movie> movies = loader.getMovies();
-        System.out.println("🎬 등록된 영화 개수: " + movies.size() + "개");
-        for (Movie m : movies) {
-            System.out.println("- " + m.getTitle() + " (" + m.getStartTime() + ")");
+        while (run) {
+            consoleUi.showStartMenu();
+            int menu = consoleUi.inputMenuNumber();
+
+            switch (menu) {
+                case 1:
+                    consoleUi.registerUser();
+                    break;
+                case 2:
+                    consoleUi.loginUser();
+                    break;
+                case 3:
+                    consoleUi.showCurrentUserInfo();
+                    break;
+                case 4:
+                    consoleUi.logoutUser();
+                    break;
+                case 5:
+                    System.out.println("프로그램을 종료합니다.");
+                    run = false;
+                    break;
+                default:
+                    System.out.println("잘못된 입력입니다.\n");
+            }
         }
-
-        // 3. SeatUi 확인
-        SeatUi ui = new SeatUi();
-        ui.printStandard();
     }
 }
