@@ -48,7 +48,7 @@ public class SeatUi {
         SeatUi testUi = new SeatUi();
 
         System.out.println("\n[1. Standard 관 테스트]");
-        testUi.printStandard(); // 하은님이 만든 메서드명
+        testUi.printStandard();
 
         System.out.println("\n[2. Premium 관 테스트]");
         testUi.printPremium();

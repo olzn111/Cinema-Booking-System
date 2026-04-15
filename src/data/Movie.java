@@ -13,7 +13,9 @@ public class Movie {
         this.theaterType = theaterType;
     }
 
-    // Getter들 (이게 있어야 나중에 화면에 보여줌)
+    // Getter (화면 공유용)
     public String getTitle() { return title; }
+    public String getGenre() { return genre; }
     public String getStartTime() { return startTime; }
+    public String getTheaterType() { return theaterType; }
 }
