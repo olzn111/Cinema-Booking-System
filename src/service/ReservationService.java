@@ -1,25 +1,81 @@
 package service;
 
+import data.Movie;
+import data.Reservation;
 import data.Theater;
+import java.util.List;
 
 public class ReservationService {
 
-    // MovieConsoleUi에서 넘겨주는 파라미터(상영관, 경로, 성인, 청소년, 유아, 할인금액)에 맞춘 최종 계산 로직
-    public int calculatePrice(Theater theater, int senior, int adult, int teen, int toddler, int discount) {
-        int basePrice = theater.getBasePrice(); // 상영관 기본 가격 (예: 15000원)
+    public int calculateTotalPeople(int senior, int adult, int teen, int toddler) {
+        if (senior < 0 || adult < 0 || teen < 0 || toddler < 0) {
+            return -1;
+        }
+        return senior + adult + teen + toddler;
+    }
+
+    public boolean isMorningMovie(Movie movie) {
+        int hour = Integer.parseInt(movie.getStartTime().split(":")[0]);
+        return hour <= 10;
+    }
+
+    public boolean isLateNightMovie(Movie movie) {
+        int hour = Integer.parseInt(movie.getStartTime().split(":")[0]);
+        return hour >= 22;
+    }
+
+    public int getTimeDiscountPerPerson(Movie movie) {
+        if (isMorningMovie(movie)) {
+            return 2000;
+        } else if (isLateNightMovie(movie)) {
+            return 1000;
+        }
+        return 0;
+    }
+
+    public String getTimeDiscountLabel(Movie movie) {
+        if (isMorningMovie(movie)) {
+            return "조조 할인";
+        } else if (isLateNightMovie(movie)) {
+            return "심야 할인";
+        }
+        return "해당 없음";
+    }
+
+    public int calculatePrice(Movie movie, Theater theater, int senior, int adult, int teen, int toddler, int membershipDiscount) {
+        if (movie == null || theater == null) {
+            return -1;
+        }
+
+        if (senior < 0 || adult < 0 || teen < 0 || toddler < 0 || membershipDiscount < 0) {
+            return -1;
+        }
+
+        int basePrice = theater.getBasePrice();
+        int timeDiscount = getTimeDiscountPerPerson(movie);
+
+        int adultPrice = Math.max(basePrice - timeDiscount, 0);
+        int teenPrice = Math.max(basePrice - 3000 - timeDiscount, 0);
+        int seniorPrice = Math.max(basePrice - 5000 - timeDiscount, 0);
+        int toddlerPrice = 0; // 유아(7세 이하)는 무료
 
         int totalPrice = 0;
+        totalPrice += adult * adultPrice;
+        totalPrice += teen * teenPrice;
+        totalPrice += senior * seniorPrice;
+        totalPrice += toddler * toddlerPrice;
 
-        // 1. 인원별 요금 합산
-        totalPrice += adult * basePrice;
-        totalPrice += teen * (int)(basePrice * 0.8);   // 청소년 20% 할인
-        totalPrice += senior * (int)(basePrice * 0.5); // 경로 50% 할인
-        // 유아(toddler)는 무료로 계산하여 더하지 않음
+        // 멤버십 할인: 본인 1표만 추가 적용
+        totalPrice -= membershipDiscount;
 
-        // 2. 단일 할인 적용 (연령 할인 또는 멤버십 할인)
-        totalPrice -= discount;
-
-        // 3. 결제 금액이 마이너스가 되는 것을 방지 (최소 0원)
         return Math.max(totalPrice, 0);
+    }
+
+    public Reservation createReservation(Movie movie, List<String> seats, int totalPeople, int finalPrice) {
+        if (movie == null || seats == null || seats.isEmpty() || totalPeople <= 0 || finalPrice < 0) {
+            return null;
+        }
+
+        return new Reservation(movie, seats, totalPeople, finalPrice);
     }
 }

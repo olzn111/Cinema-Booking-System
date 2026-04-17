@@ -8,8 +8,6 @@ public class Movie {
     private String genre;
     private String startTime;
     private String theaterType;
-
-    // 예약된 좌석들을 기억하는 리스트 (이선좌 방지용)
     private List<String> bookedSeats;
 
     public Movie(String title, String genre, String startTime, String theaterType) {
@@ -17,21 +15,33 @@ public class Movie {
         this.genre = genre;
         this.startTime = startTime;
         this.theaterType = theaterType;
-        this.bookedSeats = new ArrayList<>(); // 초기화
+        this.bookedSeats = new ArrayList<>();
     }
 
-    public String getTitle() { return title; }
-    public String getGenre() { return genre; }
-    public String getStartTime() { return startTime; }
-    public String getTheaterType() { return theaterType; }
+    public String getTitle() {
+        return title;
+    }
 
-    // 예약된 좌석 리스트 반환
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public String getTheaterType() {
+        return theaterType;
+    }
+
     public List<String> getBookedSeats() {
-        return bookedSeats;
+        return new ArrayList<>(bookedSeats);
     }
 
-    // [여기에 bookSeat가 있습니다!]
-    // 좌석 예매 시도 (true면 성공, false면 이미 있는 좌석)
+    public boolean isSeatBooked(String seat) {
+        return bookedSeats.contains(seat);
+    }
+
     public boolean bookSeat(String seat) {
         if (bookedSeats.contains(seat)) {
             return false;
@@ -40,8 +50,12 @@ public class Movie {
         return true;
     }
 
-    // 예매 취소 시 좌석 리스트에서 삭제하여 다시 빈자리로 만듦
     public void cancelSeat(String seat) {
         bookedSeats.remove(seat);
+    }
+
+    @Override
+    public String toString() {
+        return title + " / " + genre + " / " + startTime + " / " + theaterType;
     }
 }

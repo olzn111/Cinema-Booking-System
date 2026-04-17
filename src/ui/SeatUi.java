@@ -1,59 +1,79 @@
 package ui;
 
+import data.Movie;
+import java.util.List;
+
 public class SeatUi {
-    // 1. Standard: 8x6 꽉 찬 배열
-    public void printStandard() {
+
+    public void printStandard(Movie movie) {
         System.out.println("========== SCREEN (Standard) ==========");
+
+        List<String> bookedSeats = movie.getBookedSeats();
+
         for (char row = 'A'; row <= 'F'; row++) {
             System.out.print(row + "  ");
             for (int col = 1; col <= 8; col++) {
-                System.out.print("[" + row + col + "] ");
+                String seatName = row + String.valueOf(col);
+
+                if (bookedSeats.contains(seatName)) {
+                    System.out.print("[ X ] ");
+                } else {
+                    System.out.print("[" + seatName + "] ");
+                }
             }
             System.out.println();
         }
     }
 
-    // 2. Premium / IMAX: P/N 구역 및 넓은 간격
-    public void printPremium() {
+    public void printPremium(Movie movie) {
         System.out.println("========== SCREEN (Premium) ==========");
-        // P구역과 N구역을 나눠서 출력
-        printRowWithPrefix('A', "P", 1, 6);
-        printRowWithPrefix('B', "P", 7, 12);
-        System.out.println(); // 중간 통로
-        printRowWithPrefix('C', "N", 1, 6);
-        printRowWithPrefix('D', "N", 7, 12);
-    }
 
-    // 3. Couple: [A1-A2] 쌍으로 묶기
-    public void printCouple() {
-        System.out.println("========== SCREEN (Couple) ==========");
-        for (char row = 'A'; row <= 'D'; row++) {
-            System.out.print(row + "  ");
-            for (int col = 1; col <= 7; col += 2) {
-                System.out.print("[" + row + col + "-" + row + (col + 1) + "]   ");
+        List<String> bookedSeats = movie.getBookedSeats();
+
+        System.out.print("P  ");
+        for (int i = 1; i <= 12; i++) {
+            String seatName = "P" + i;
+            if (bookedSeats.contains(seatName)) {
+                System.out.print("[ X ] ");
+            } else {
+                System.out.print("[" + seatName + "] ");
             }
-            System.out.println("\n");
         }
-    }
+        System.out.println();
 
-    private void printRowWithPrefix(char rowName, String prefix, int start, int end) {
-        System.out.print(rowName + "  ");
-        for (int i = start; i <= end; i++) {
-            System.out.print("[" + prefix + i + "]  ");
+        System.out.println();
+
+        System.out.print("N  ");
+        for (int i = 1; i <= 12; i++) {
+            String seatName = "N" + i;
+            if (bookedSeats.contains(seatName)) {
+                System.out.print("[ X ] ");
+            } else {
+                System.out.print("[" + seatName + "] ");
+            }
         }
         System.out.println();
     }
 
-    public static void main(String[] args) {
-        SeatUi testUi = new SeatUi();
+    public void printCouple(Movie movie) {
+        System.out.println("========== SCREEN (Couple) ==========");
 
-        System.out.println("\n[1. Standard 관 테스트]");
-        testUi.printStandard();
+        List<String> bookedSeats = movie.getBookedSeats();
 
-        System.out.println("\n[2. Premium 관 테스트]");
-        testUi.printPremium();
+        for (char row = 'A'; row <= 'D'; row++) {
+            System.out.print(row + "  ");
+            for (int col = 1; col <= 7; col += 2) {
+                String seat1 = row + String.valueOf(col);
+                String seat2 = row + String.valueOf(col + 1);
 
-        System.out.println("\n[3. Couple 관 테스트]");
-        testUi.printCouple();
+                if (bookedSeats.contains(seat1) || bookedSeats.contains(seat2)) {
+                    System.out.print("[ X ]   ");
+                } else {
+                    System.out.print("[" + seat1 + "-" + seat2 + "]   ");
+                }
+            }
+            System.out.println();
+            System.out.println();
+        }
     }
 }
