@@ -3,15 +3,24 @@ package data;
 public class User {
     private String id;
     private String pw;
-    private boolean isMembership; // 멤버십 여부 저장 공간 추가!
+    private boolean membership;
+    private String telecomCompany;
+    private String membershipGrade;
 
-    public User(String id, String pw, boolean isMembership) {
+    public User(String id, String pw, boolean membership, String telecomCompany, String membershipGrade) {
         this.id = id;
         this.pw = pw;
-        this.isMembership = isMembership;
+        this.membership = membership;
+
+        if (membership) {
+            this.telecomCompany = telecomCompany;
+            this.membershipGrade = membershipGrade;
+        } else {
+            this.telecomCompany = "없음";
+            this.membershipGrade = "없음";
+        }
     }
 
-    // 정보들을 가져오는 Getter 메서드들
     public String getId() {
         return id;
     }
@@ -20,13 +29,39 @@ public class User {
         return pw;
     }
 
-    // 이 부분이 추가되어 isMembership 빨간 줄이 해결됩니다!
     public boolean isMembership() {
-        return isMembership;
+        return membership;
     }
 
-    // MovieConsoleUi에서 사용하는 연령 할인 타입 (기본값 설정)
-    public String getAgeDiscountType() {
-        return "일반";
+    public String getTelecomCompany() {
+        return telecomCompany;
+    }
+
+    public String getMembershipGrade() {
+        return membershipGrade;
+    }
+
+    public int getMembershipDiscount() {
+        if (!membership) {
+            return 0;
+        }
+
+        if (membershipGrade.equalsIgnoreCase("VIP")) {
+            return 9000;
+        } else if (membershipGrade.equalsIgnoreCase("GOLD")) {
+            return 5000;
+        } else if (membershipGrade.equalsIgnoreCase("SILVER")) {
+            return 2000;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "아이디: " + id
+                + " / 멤버십 여부: " + (membership ? "예" : "아니오")
+                + " / 통신사: " + telecomCompany
+                + " / 등급: " + membershipGrade;
     }
 }

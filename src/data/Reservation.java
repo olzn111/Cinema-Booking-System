@@ -1,5 +1,6 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Reservation {
@@ -10,15 +11,26 @@ public class Reservation {
 
     public Reservation(Movie movie, List<String> seats, int totalPeople, int finalPrice) {
         this.movie = movie;
-        this.seats = seats;
+        this.seats = new ArrayList<>(seats);
         this.totalPeople = totalPeople;
         this.finalPrice = finalPrice;
     }
 
-    public Movie getMovie() { return movie; }
-    public List<String> getSeats() { return seats; } // 좌석 리스트 반환
-    public int getTotalPeople() { return totalPeople; }
-    public int getFinalPrice() { return finalPrice; }
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public List<String> getSeats() {
+        return new ArrayList<>(seats);
+    }
+
+    public int getTotalPeople() {
+        return totalPeople;
+    }
+
+    public int getFinalPrice() {
+        return finalPrice;
+    }
 
     @Override
     public String toString() {
