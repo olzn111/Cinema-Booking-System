@@ -1,19 +1,20 @@
+// 패키지 선언 및 파일 불러오기
 package service;
 
 import data.Movie;
-
 public class SampleDataLoader {
+    // 영화 저장할 객체 생성
     private MovieService movieService;
-
+    // 외부에서 가져온 영화 저장
     public SampleDataLoader(MovieService movieService) {
         this.movieService = movieService;
     }
-
+    // 영화 정보 가져오기 
     public void loadData() {
         if (!movieService.isEmpty()) {
             return;
         }
-
+        //영화 정보 - 추가하기 메서드
         movieService.addMovie(new Movie("헤일메리", "SF", "08:00", "Standard"));
         movieService.addMovie(new Movie("헤일메리", "SF", "11:30", "Standard"));
         movieService.addMovie(new Movie("헤일메리", "SF", "15:00", "Premium"));

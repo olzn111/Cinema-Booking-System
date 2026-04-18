@@ -4,7 +4,7 @@ import data.Movie;
 import java.util.List;
 
 public class SeatUi {
-
+    // standard 좌석 ui
     public void printStandard(Movie movie) {
         System.out.println("========== SCREEN (Standard) ==========");
 
@@ -24,7 +24,7 @@ public class SeatUi {
             System.out.println();
         }
     }
-
+    // premium 좌석 ui
     public void printPremium(Movie movie) {
         System.out.println("========== SCREEN (Premium) ==========");
 
@@ -55,25 +55,4 @@ public class SeatUi {
         System.out.println();
     }
 
-    public void printCouple(Movie movie) {
-        System.out.println("========== SCREEN (Couple) ==========");
-
-        List<String> bookedSeats = movie.getBookedSeats();
-
-        for (char row = 'A'; row <= 'D'; row++) {
-            System.out.print(row + "  ");
-            for (int col = 1; col <= 7; col += 2) {
-                String seat1 = row + String.valueOf(col);
-                String seat2 = row + String.valueOf(col + 1);
-
-                if (bookedSeats.contains(seat1) || bookedSeats.contains(seat2)) {
-                    System.out.print("[ X ]   ");
-                } else {
-                    System.out.print("[" + seat1 + "-" + seat2 + "]   ");
-                }
-            }
-            System.out.println();
-            System.out.println();
-        }
-    }
 }

@@ -160,3 +160,9 @@ replay_pid*
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,java,intellij
+
+.idea/
+bin/
+.classpath
+.project
+*.iml
